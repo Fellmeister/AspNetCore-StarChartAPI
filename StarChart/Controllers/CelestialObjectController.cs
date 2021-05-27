@@ -71,13 +71,14 @@ namespace StarChart.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, CelestialObject celestialObject)
         {
-            var updated = _context.CelestialObjects.Find(id);
-            if (updated == null)
+            var existingObject = _context.CelestialObjects.Find(id);
+            if (existingObject == null)
                 return NotFound();
-            updated.OrbitalPeriod = celestialObject.OrbitalPeriod;
-            updated.OrbitedObjectId = celestialObject.OrbitedObjectId;
+            existingObject.Name = celestialObject.Name;
+            existingObject.OrbitalPeriod = celestialObject.OrbitalPeriod;
+            existingObject.OrbitedObjectId = celestialObject.OrbitedObjectId;
             
-            _context.CelestialObjects.Update(updated);
+            _context.CelestialObjects.Update(existingObject);
             _context.SaveChanges();
             
             return NoContent();
@@ -86,13 +87,13 @@ namespace StarChart.Controllers
         [HttpPatch("{id}/{name}")]
         public IActionResult RenameObject(int id, string name)
         {
-            var updated = _context.CelestialObjects.Find(id);
-            if (updated == null)
+            var existingObject = _context.CelestialObjects.Find(id);
+            if (existingObject == null)
                 return NotFound();
             
-            updated.Name = name;
+            existingObject.Name = name;
             
-            _context.CelestialObjects.Update(updated);
+            _context.CelestialObjects.Update(existingObject);
             _context.SaveChanges();
             
             return NoContent();
